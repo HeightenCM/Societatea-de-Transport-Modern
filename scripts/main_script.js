@@ -92,17 +92,15 @@ function initializeMap(destinationName, latitude, longitude) {
     L.marker([latitude, longitude]).addTo(map)
         .bindPopup("<h3>"+destinationName+"</h3>\nDestination");
     
-        map.locate({setView: true, maxZoom: 16});
-        function onLocationFound(e) {
-            var radius = e.accuracy;
-        
-            L.marker(e.latlng).addTo(map)
-                .bindPopup("You are within " + radius + " meters from this point").openPopup();
-        
-            L.circle(e.latlng, radius).addTo(map);
-        }
-        
-        map.on('locationfound', onLocationFound);
+    map.locate();
+    map.on('locationfound', (e)=>{
+        var radius = e.accuracy;
+    
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+    
+        L.circle(e.latlng, radius).addTo(map);
+    });
 }
 
 //Adding a canvas for animations and stuff
