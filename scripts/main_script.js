@@ -73,8 +73,9 @@ destinationForm.addEventListener('submit', (event)=>{
     if(destination){ //Might not need this check but just to be sure
         containerDest.remove();
         initializeMap(destination.name,destination.latitude, destination.longitude);
+        initializeCanvas();
     } else{
-        alert("Didn't select a destination!");
+        alert("Didn't select a destination!"); //Might never trigger.. oh well..
     }
 });
 
@@ -83,12 +84,30 @@ function initializeMap(destinationName, latitude, longitude) {
     const mapDiv = document.getElementById("map");
     mapDiv.style.display = "block"; // And magically the map appears
 
-    const map = L.map('map').setView([latitude, longitude], 12); // Centers map on destination (for now)
+    const map = L.map('map').setView([latitude, longitude], 15); // Centers map on destination (for now)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     L.marker([latitude, longitude]).addTo(map)
-        .bindPopup(destinationName)
-        .openPopup();
+        .bindPopup("<h3>"+destinationName+"</h3>\nDestination");
+    
+        map.locate({setView: true, maxZoom: 16});
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+        
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+        
+            L.circle(e.latlng, radius).addTo(map);
+        }
+        
+        map.on('locationfound', onLocationFound);
+}
+
+//Adding a canvas for animations and stuff
+function initializeCanvas(){
+    const canvas = document.getElementById('canvas');
+    canvas.style.display = "block";
+    const ctx = canvas.getContext('2d');
 }
