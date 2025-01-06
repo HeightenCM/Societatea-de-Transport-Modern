@@ -1,16 +1,16 @@
-let map = L.map('map').setView([44.439663, 26.096306], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+// let map = L.map('map').setView([44.439663, 26.096306], 13);
+// L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//     maxZoom: 19,
+//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+// }).addTo(map);
 
-let canvasAnim = document.getElementById('canvasAnimation');
-animContext = canvasAnim.getContext('2d');
-let bus1 = new Image();
-bus1.src='assets/images/bus1.gif';
-bus1.onload = function() {
-    animContext.drawImage(bus1, 0, canvasAnim.height-bus1.height);
-};
+// let canvasAnim = document.getElementById('canvasAnimation');
+// animContext = canvasAnim.getContext('2d');
+// let bus1 = new Image();
+// bus1.src='assets/images/bus1.gif';
+// bus1.onload = function() {
+//     animContext.drawImage(bus1, 0, canvasAnim.height-bus1.height);
+// };
 
 
 // Adding theme changing capabilities

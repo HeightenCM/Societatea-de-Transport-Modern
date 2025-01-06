@@ -1,22 +1,7 @@
 body{
-    /* background-color: darkolivegreen; */
+    min-height: 100vh;
 }
 
-#mapContainer{
-    display: flex;
-    align-content: center;
-    justify-content: center;
-}
-
-#map{
-    height: 500px;
-    width: 500px;
-    border: 5px solid black;
-}
-
-#canvasAnimation{
-    border: 5px solid black;
-    width: 100%;
-    height: 100px;
-    display: block;
+#containerthingie{
+    min-height: 80vh;
 }
