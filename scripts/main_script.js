@@ -64,7 +64,7 @@ function initializeMap(destinationName, latitude, longitude) {
     const mapDiv = document.getElementById("map");
     mapDiv.style.display = "block"; // And magically the map appears
 
-    const map = L.map('map').setView([latitude, longitude], 13); // Centers map on destination (for now)
+    const map = L.map('map').setView([latitude, longitude], 12); // Centers map on destination (for now)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
