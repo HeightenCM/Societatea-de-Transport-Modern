@@ -5,3 +5,9 @@ body{
 #containerthingie{
     min-height: 80vh;
 }
+
+#map{
+    height: 100vh;
+    width: 100%;
+    display: none;
+}
