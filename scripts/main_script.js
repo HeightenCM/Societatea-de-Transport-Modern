@@ -22,11 +22,30 @@ changetheme.addEventListener('click', () => {
 
 //list of destinations, might add more idk
 let destinationList = [
-    {"name":"ASE","latitude":"44.447437","longitude":"26.097938"},
-    {"name":"Unibuc","longitude":"44.447437","latitude":"26.097938"},
-    {"name":"Piata Victoriei","longitude":"44.447437","latitude":"26.097938"},
-    {"name":"Obor","longitude":"44.447437","latitude":"26.097938"},
-    {"name":"Idk","longitude":"44.447437","latitude":"26.097938"}
+    {"name":"Piata Romana","latitude":"44.445355","longitude":"26.097703"},
+    {"name":"Piata Universitati","latitude":"44.435553","longitude":"26.102475"},
+    {"name":"Piata Victoriei 1","latitude":"44.451953","longitude":"26.087076"},
+    {"name":"Piata Victoriei 2","latitude":"44.452623","longitude":"26.086433"},
+    {"name":"Obor","latitude":"44.449437","longitude":"26.124598"},
+    {"name":"Stefan Cel Mare","latitude":"44.452929","longitude":"26.104696"},
+    {"name":"Piata Unirii 1","latitude":"44.427543","longitude":"26.10192"},
+    {"name":"Piata Unirii 2","latitude":"44.427758","longitude":"26.10409"},
+    {"name":"Aviatilor","latitude":"44.466033","longitude":"26.086649"},
+    {"name":"Aurel Vlaicu","latitude":"44.479156","longitude":"26.100233"},
+    {"name":"Pipera","latitude":"44.48062","longitude":"26.116637"},
+    {"name":"Dristor 1","latitude":"44.419368","longitude":"26.140471"},
+    {"name":"Dristor 2","latitude":"44.420477","longitude":"26.139417"},
+    {"name":"Piata Muncii","latitude":"44.431828","longitude":"26.138674"},
+    {"name":"Piata Iancului","latitude":"44.441695","longitude":"26.132323"},
+    {"name":"Gara De Nord 1","latitude":"44.447235","longitude":"26.076562"},
+    {"name":"Basarab 1","latitude":"44.450745","longitude":"26.068368"},
+    {"name":"Crangasi","latitude":"44.451911","longitude":"26.047141"},
+    {"name":"Petrache Poenaru","latitude":"44.445423","longitude":"26.046554"},
+    {"name":"Eroilor","latitude":"44.435063","longitude":"26.075653"},
+    {"name":"Izvor","latitude":"44.433064","longitude":"26.089584"},
+    {"name":"timpuri Noi","latitude":"44.416963","longitude":"26.113346"},
+    {"name":"Mihai","latitude":"44.41129","longitude":"26.125891"},
+    {"name":"Grozavesti","latitude":"44.442739","longitude":"26.060359"},
 ];
 
 function populateDestinationSelector(){
