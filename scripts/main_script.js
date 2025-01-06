@@ -1,18 +1,3 @@
-// let map = L.map('map').setView([44.439663, 26.096306], 13);
-// L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     maxZoom: 19,
-//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-// }).addTo(map);
-
-// let canvasAnim = document.getElementById('canvasAnimation');
-// animContext = canvasAnim.getContext('2d');
-// let bus1 = new Image();
-// bus1.src='assets/images/bus1.gif';
-// bus1.onload = function() {
-//     animContext.drawImage(bus1, 0, canvasAnim.height-bus1.height);
-// };
-
-
 // Adding theme changing capabilities
 function changeColorMode(){
     let webpage = document.getElementById('webpage');
@@ -24,7 +9,7 @@ function changeColorMode(){
 }
 
 let changetheme = document.getElementById('changethemebtn');
-changetheme.addEventListener('click', function(){
+changetheme.addEventListener('click', () => {
     if(changetheme.classList.contains('btn-light')){
         changetheme.classList.remove('btn-light');
         changetheme.classList.add('btn-dark');
@@ -33,4 +18,36 @@ changetheme.addEventListener('click', function(){
         changetheme.classList.remove('btn-dark');
     }
     changeColorMode();
+});
+
+//list of destinations, might add more idk
+let destinationList = [
+    {"name":"ASE","longitude":"44.447437","latitude":"26.097938"},
+    {"name":"Unibuc","longitude":"44.447437","latitude":"26.097938"},
+    {"name":"Piata Victoriei","longitude":"44.447437","latitude":"26.097938"},
+    {"name":"Obor","longitude":"44.447437","latitude":"26.097938"},
+    {"name":"Idk","longitude":"44.447437","latitude":"26.097938"}
+];
+
+function populateDestinationSelector(){
+    const destSelector = document.getElementById('destinationSelector');
+    destinationList.forEach(destination=>{
+        const newOption = document.createElement('option');
+        newOption.value = destination.name;
+        newOption.textContent = destination.name;
+        destSelector.appendChild(newOption);
+    })
+}
+
+populateDestinationSelector();
+
+const destinationForm = document.getElementById('destinationForm');
+
+destinationForm.addEventListener('submit', (event)=>{
+    //I don't want the page to refresh smh
+    event.preventDefault();
+    const selectedDest = document.getElementById('destinationSelector').value;
+    const destination = destinationList.find(dest => dest.name===selectedDest);
+
+
 });
