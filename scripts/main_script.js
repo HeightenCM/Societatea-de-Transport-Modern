@@ -30,7 +30,7 @@ let destinationList = [
     {"name":"Stefan Cel Mare","latitude":"44.452929","longitude":"26.104696"},
     {"name":"Piata Unirii 1","latitude":"44.427543","longitude":"26.10192"},
     {"name":"Piata Unirii 2","latitude":"44.427758","longitude":"26.10409"},
-    {"name":"Aviatilor","latitude":"44.466033","longitude":"26.086649"},
+    {"name":"Aviatorilor","latitude":"44.466033","longitude":"26.086649"},
     {"name":"Aurel Vlaicu","latitude":"44.479156","longitude":"26.100233"},
     {"name":"Pipera","latitude":"44.48062","longitude":"26.116637"},
     {"name":"Dristor 1","latitude":"44.419368","longitude":"26.140471"},
@@ -44,9 +44,33 @@ let destinationList = [
     {"name":"Eroilor","latitude":"44.435063","longitude":"26.075653"},
     {"name":"Izvor","latitude":"44.433064","longitude":"26.089584"},
     {"name":"timpuri Noi","latitude":"44.416963","longitude":"26.113346"},
-    {"name":"Mihai","latitude":"44.41129","longitude":"26.125891"},
+    {"name":"Mihai Bravu","latitude":"44.41129","longitude":"26.125891"},
     {"name":"Grozavesti","latitude":"44.442739","longitude":"26.060359"},
 ];
+const metroMap = {
+    "Piata Romana": ["Piata Universitati", "Piata Victoriei 2"],
+    "Piata Universitati": ["Piata Romana", "Piata Unirii 2"],
+    "Piata Unirii 2": ["Piata Romana","Piata Unirii 1"],
+    "Piata Unirii 1": ["Izvor","Timpuri Noi","Piata Unirii 2"],
+    "Izvor": ["Piata Unirii 2", "Eroilor"],
+    "Eroilor": ["Izvor", "Grozavesti"],
+    "Grozavesti": ["Eroilor", "Petrache Poenaru"],
+    "Petrache Poenaru": ["Grozavesti", "Crangasi"],
+    "Crangasi": ["Basarab 1", "Petrache Poenaru"],
+    "Basarab 1": ["Crangasi", "Gara De Nord 1"],
+    "Gara De Nord 1": ["Basarab 1", "Piata Victoriei 1"],
+    "Piata Victoriei 1": ["Gara De Nord 1", "Stefan Cel Mare"],
+    "Stefan Cel Mare": ["Piata Victoriei 1", "Obor"],
+    "Obor": ["Stefan Cel Mare", "Piata Iancului"],
+    "Piata Iancului": ["Obor", "Piata Muncii"],
+    "Piata Muncii": ["Piata Iancului", "Dristor 2"],
+    "Dristor 2": ["Piata Muncii", "Dristor 1"],
+    "Dristor 1": ["Mihai Bravu", "Dristor 2"],
+    "Mihai Bravu": ["Timpuri Noi", "Dristor 1"],
+    "Pipera": ["Aurel Vlaicu"],  
+    "Aurel Vlaicu": ["Pipera", "Aviatorilor"],
+    "Aviatorilor": ["Aurel Vlaicu", "Piata Victoriei 2"],
+};
 
 function populateDestinationSelector(){
     const destSelector = document.getElementById('destinationSelector');
