@@ -87,8 +87,7 @@ populateDestinationSelector();
 const destinationForm = document.getElementById('destinationForm');
 
 destinationForm.addEventListener('submit', (event)=>{
-    //I don't want the page to refresh smh
-    event.preventDefault();
+    event.preventDefault(); //I don't want the page to refresh smh
     const selectedDest = document.getElementById('destinationSelector').value;
     const destination = destinationList.find(dest => dest.name===selectedDest);
 
@@ -96,8 +95,8 @@ destinationForm.addEventListener('submit', (event)=>{
 
     if(destination){ //Might not need this check but just to be sure
         containerDest.remove();
-        initializeMap(destination.name,destination.latitude, destination.longitude);
         initializeCanvas();
+        initializeMap(destination.name,destination.latitude, destination.longitude);
     } else{
         alert("Didn't select a destination!"); //Might never trigger.. oh well..
     }
@@ -105,8 +104,10 @@ destinationForm.addEventListener('submit', (event)=>{
 
 //Initializing the map based on given coordinates
 function initializeMap(destinationName, latitude, longitude) {
-    const mapDiv = document.getElementById("map");
-    mapDiv.style.display = "block"; // And magically the map appears
+    const mapDiv = document.createElement('div');
+    mapDiv.id = "map";
+    mapDiv.classList.add('position-absolute', 'bottom-0');
+    document.body.appendChild(mapDiv);
 
     const map = L.map('map').setView([latitude, longitude], 15); // Centers map on destination (for now)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -121,7 +122,7 @@ function initializeMap(destinationName, latitude, longitude) {
         var radius = e.accuracy;
     
         L.marker(e.latlng).addTo(map)
-            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+            .bindPopup("<h3>"+e.latlng+"</h3>\nCurrent Location");
     
         L.circle(e.latlng, radius).addTo(map);
     });
@@ -129,7 +130,15 @@ function initializeMap(destinationName, latitude, longitude) {
 
 //Adding a canvas for animations and stuff
 function initializeCanvas(){
-    const canvas = document.getElementById('canvas');
-    canvas.style.display = "block";
+    const canvas = document.createElement('canvas');
+    canvas.id="canvas";
+    canvas.width=2000;
+    canvas.height=120;
+    canvas.style.display='block';
+    document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
+    //ctx.fillStyle='red';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font="30px Arial Black";
+    ctx.fillText("Hello World", 10, 50);
 }
