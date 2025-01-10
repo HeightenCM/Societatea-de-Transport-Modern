@@ -59,7 +59,7 @@ const metroMap = {
     "Crangasi": ["Basarab 1", "Petrache Poenaru"],
     "Basarab 1": ["Crangasi", "Gara De Nord 1"],
     "Gara De Nord 1": ["Basarab 1", "Piata Victoriei 1"],
-    "Piata Victoriei 1": ["Gara De Nord 1", "Stefan Cel Mare"],
+    "Piata Victoriei 1": ["Gara De Nord 1", "Stefan Cel Mare", "Piata Victoriei 2"],
     "Stefan Cel Mare": ["Piata Victoriei 1", "Obor"],
     "Obor": ["Stefan Cel Mare", "Piata Iancului"],
     "Piata Iancului": ["Obor", "Piata Muncii"],
@@ -67,10 +67,13 @@ const metroMap = {
     "Dristor 2": ["Piata Muncii", "Dristor 1"],
     "Dristor 1": ["Mihai Bravu", "Dristor 2"],
     "Mihai Bravu": ["Timpuri Noi", "Dristor 1"],
+    "Timpuri Noi": ["Mihai Bravu", "Piata Unirii 1"],
     "Pipera": ["Aurel Vlaicu"],  
     "Aurel Vlaicu": ["Pipera", "Aviatorilor"],
     "Aviatorilor": ["Aurel Vlaicu", "Piata Victoriei 2"],
+    "Piata Victoriei 2": ["Aviatorilor", "Piata Romana", "Piata Victoriei 1"],
 };
+
 
 function populateDestinationSelector(){
     const destSelector = document.getElementById('destinationSelector');
@@ -103,29 +106,103 @@ destinationForm.addEventListener('submit', (event)=>{
     }
 });
 
-//Initializing the map based on given coordinates
+// Function to find the nearest station to the user's location
+function findNearestStation(lat, lng) {
+    let nearestStation = null;
+    let shortestDistance = Infinity;
+
+    destinationList.forEach(station => {
+        const distance = Math.sqrt(
+            Math.pow(lat - parseFloat(station.latitude), 2) +
+            Math.pow(lng - parseFloat(station.longitude), 2)
+        );
+        if (distance < shortestDistance) {
+            shortestDistance = distance;
+            nearestStation = station;
+        }
+    });
+
+    return nearestStation;
+}
+
+// Function to find the shortest path using BFS
+function findShortestPath(start, end) {
+    const queue = [[start]];
+    const visited = new Set();
+
+    while (queue.length > 0) {
+        const path = queue.shift();
+        const station = path[path.length - 1];
+
+        if (station === end) return path;
+
+        if (!visited.has(station)) {
+            visited.add(station);
+
+            metroMap[station].forEach(neighbor => {
+                const newPath = [...path, neighbor];
+                queue.push(newPath);
+            });
+        }
+    }
+
+    return null; // No path found
+}
+
+// Function to initialize the map with the traced path
 function initializeMap(destinationName, latitude, longitude) {
     const mapDiv = document.getElementById("map");
-    mapDiv.style.display = "block"; // And magically the map appears
+    mapDiv.style.display = "block"; // Display the map
 
-    const map = L.map('map').setView([latitude, longitude], 15); // Centers map on destination (for now)
+    const map = L.map('map').setView([latitude, longitude], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    // Add a marker for the destination
     L.marker([latitude, longitude]).addTo(map)
-        .bindPopup("<h3>"+destinationName+"</h3>\nDestination");
-    
+        .bindPopup("<h3>" + destinationName + "</h3>\nDestination");
+
+    // Locate the user's position
     map.locate();
-    map.on('locationfound', (e)=>{
-        var radius = e.accuracy;
-    
+    map.on('locationfound', (e) => {
+        const userLat = e.latlng.lat;
+        const userLng = e.latlng.lng;
         L.marker(e.latlng).addTo(map)
-            .bindPopup("You are within " + radius + " meters from this point").openPopup();
-    
-        L.circle(e.latlng, radius).addTo(map);
+        .bindPopup(`You are within 10 meters from this point.`).openPopup();
+
+        // Find the nearest station to the user and the destination
+        const nearestUserStation = findNearestStation(userLat, userLng);
+        const nearestDestStation = findNearestStation(latitude, longitude);
+
+        if (nearestUserStation && nearestDestStation) {
+            const path = findShortestPath(nearestUserStation.name, nearestDestStation.name);
+
+            if (path) {
+                const pathCoords = path.map(stationName => {
+                    const station = destinationList.find(dest => dest.name === stationName);
+                    return [station.latitude, station.longitude];
+                });
+
+                // Draw the path on the map
+                const polyline = L.polyline(pathCoords, { color: 'blue' }).addTo(map);
+                map.fitBounds(polyline.getBounds());
+
+                // Add markers for each station on the path
+                pathCoords.forEach(([lat, lng], index) => {
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup(`<h3>${path[index]}</h3>`);
+                });
+            } else {
+                alert("No path found between the stations!");
+            }
+        } else {
+            alert("Could not find the nearest stations!");
+        }
     });
 }
+
+
 
 //Adding a canvas for animations and stuff
 function initializeCanvas(){
