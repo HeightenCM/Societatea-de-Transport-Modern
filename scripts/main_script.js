@@ -206,7 +206,15 @@ function initializeMap(destinationName, latitude, longitude) {
 
 //Adding a canvas for animations and stuff
 function initializeCanvas(){
-    const canvas = document.getElementById('canvas');
-    canvas.style.display = "block";
+    const canvas = document.createElement('canvas');
+    canvas.id="canvas";
+    canvas.width=2000;
+    canvas.height=120;
+    canvas.style.display='block';
+    document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
+    //ctx.fillStyle='red';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font="30px Arial Black";
+    ctx.fillText("Hello World", 10, 50);
 }
