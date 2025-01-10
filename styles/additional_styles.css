@@ -7,13 +7,6 @@ body{
 }
 
 #map{
-    height: 90vh;
+    height: 80vh;
     width: 100%;
-    display: none;
-}
-
-#canvas{
-    height: 5vh;
-    width: 100%;
-    display: none;
 }
