@@ -6,7 +6,15 @@ body{
     min-height: 80vh;
 }
 
+
 #map{
-    height: 80vh;
+    height: 90vh;
     width: 100%;
+    display: none;
+}
+
+#canvas{
+    height: 5vh;
+    width: 100%;
+    display: none;
 }
