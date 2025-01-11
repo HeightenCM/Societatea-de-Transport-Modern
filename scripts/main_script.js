@@ -178,7 +178,7 @@ function initializeMap(destinationName, latitude, longitude) {
                     const station = destinationList.find(dest => dest.name === stationName);
                     return [station.latitude, station.longitude];
                 });
-                
+
                 pathCoords.unshift([userLat, userLng]);
                 // Draw the path on the map (H: I added the user location temporarily, so it's connected to the rest)
                 const polyline = L.polyline(pathCoords, { color: 'blue' }).addTo(map);
@@ -211,11 +211,18 @@ function initializeCanvas(){
     canvas.id="canvas";
     canvas.width=1000;
     canvas.height=80;
-    canvas.style.display='block';
     document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    //ctx.fillStyle='red';
-    //ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font="30px Arial Black";
-    ctx.fillText("Hello World", 10, 50);
+    ctx.font="30px Open Sans";
+    ctx.fillStyle="yellow";
+    drawDestinationList(ctx, 2);
+}
+
+function drawDestinationList(ctx, stationList){
+    let canvasWidth = ctx.canvas.width;
+    let canvasHeight = ctx.canvas.height;
+    for(let i = canvasWidth; i>canvasWidth/2; i--){
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillText("Hello World!", i, canvasHeight/2);
+    }
 }
