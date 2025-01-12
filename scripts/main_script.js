@@ -173,7 +173,7 @@ function initializeMap(destinationName, latitude, longitude) {
 
         // computing the nearest station to the user and the nearest one to the destination (read comm below)
         const nearestUserStation = findNearestStation(userLat, userLng);
-        const nearestDestStation = findNearestStation(latitude, longitude); //ali this is useless, all destinations are nodes
+        const nearestDestStation = findNearestStation(latitude, longitude); //H:ali this is useless, all destinations are nodes
 
         if (nearestUserStation && nearestDestStation) {
             const path = findShortestPath(nearestUserStation.name, nearestDestStation.name);
@@ -238,7 +238,7 @@ function drawMessage(stationList){
     let canvasWidth = ctx.canvas.width;
     let canvasHeight = ctx.canvas.height;
     ctx.font="30px Open Sans";
-    if(document.getElementById('webpage').getAttribute('data-bs-theme')==='light'){
+    if(document.getElementById('webpage').getAttribute('data-bs-theme')==='light'){ // complete useless implementation, won't work as intended fyi
         ctx.fillStyle="blue";
     } else{
         ctx.fillStyle="yellow";
@@ -270,7 +270,7 @@ function drawMessage(stationList){
         if (textPosition + textWidth < 0) {
             textPosition = canvasWidth;
         }
-        requestAnimationFrame(displayTheStations);
+        requestAnimationFrame(displayTheStations); // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations
     }
     displayTheStations();
 }
@@ -278,7 +278,7 @@ function drawMessage(stationList){
 function easterEgg(event, ctx){
     if(event.key==='r'){
         isEasterEggActive = true;
-        const eggAudio = new Audio('assets/music/odainpiataromana.mp3');
+        const eggAudio = new Audio("assets/music/odainpiataromana.mp3");
         const subtitlesForEgg=[
             { time: 2, text: "Ce faci bă?" },
             { time: 3, text: "Bă, bine. Uite, absolut nimic." },
