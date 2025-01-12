@@ -1,5 +1,6 @@
 body{
     min-height: 100vh;
+    height: 100vh;
 }
 
 #containerthingie{
@@ -7,7 +8,7 @@ body{
 }
 
 
-#map{
+/* #map{
     height: 90vh;
     width: 100%;
-}
+} */

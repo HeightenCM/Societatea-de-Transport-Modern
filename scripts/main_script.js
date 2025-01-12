@@ -154,6 +154,9 @@ function initializeMap(destinationName, latitude, longitude) {
     mapDiv.id='map';
     document.body.appendChild(mapDiv);
 
+    window.addEventListener('resize', ()=>resizeMapDynamic(mapDiv));
+    resizeMapDynamic(mapDiv);
+
     const map = L.map('map').setView([latitude, longitude], 17);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -203,16 +206,30 @@ function initializeMap(destinationName, latitude, longitude) {
     });
 }
 
+function resizeCanvasDynamic(context){
+    canvas.width = window.innerWidth;
+    canvas.height = 0.1 * window.innerHeight;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
 
+function resizeMapDynamic(mapDiv){
+    let navbarHeight = document.getElementById('navbarbro').offsetHeight;
+    mapDiv.style.width = `${window.innerWidth}px`;
+    mapDiv.style.height = `${window.innerHeight*(1-0.1)-navbarHeight-5}px`; //H:I have no fkin clue why I have to subtract 5 to fit without scroll
+}
 
 //Adding a canvas for animations and stuff
 function initializeCanvas(){
     const canvas = document.createElement('canvas');
     canvas.id="canvas";
-    canvas.width=1000;
-    canvas.height=80;
     document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
+    if(canvas){
+        window.addEventListener('resize', ()=>resizeCanvasDynamic(ctx));
+        resizeCanvasDynamic(ctx);
+    }
+
+    
     ctx.font="30px Open Sans";
     ctx.fillStyle="yellow";
     drawDestinationList(ctx, 2);
