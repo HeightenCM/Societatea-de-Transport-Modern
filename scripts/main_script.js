@@ -175,6 +175,7 @@ function initializeMap(destinationName, latitude, longitude) {
 
         if (nearestUserStation && nearestDestStation) {
             const path = findShortestPath(nearestUserStation.name, nearestDestStation.name);
+            drawMessage(path);
 
             if (path) {
                 const pathCoords = path.map(stationName => {
@@ -228,18 +229,39 @@ function initializeCanvas(){
         window.addEventListener('resize', ()=>resizeCanvasDynamic(ctx));
         resizeCanvasDynamic(ctx);
     }
-
-    
-    ctx.font="30px Open Sans";
-    ctx.fillStyle="yellow";
-    drawDestinationList(ctx, 2);
 }
 
-function drawDestinationList(ctx, stationList){
+function drawMessage(stationList){
+    let mesaj = "";
+    if(stationList.length>1){
+        mesaj = "Walk up to station " + stationList[0] +". ";
+        stationList.shift();
+        mesaj+="Once on the vehicle, the stops are the following: " + stationList.join(" > ")+". ";
+        mesaj+="For stations labeled the same and numbered 1 and 2 (if applicable) you'll have to walk and change vehicles. ";
+        mesaj+=" A vehicle leaves a station every 5 minutes. Enjoy your ride! ";
+    } else{
+        mesaj+="It seems the location you want to arrive at is the closest station to you. Happy strolling!";
+    }
+    
+    let ctx = document.getElementById('canvas').getContext('2d');
     let canvasWidth = ctx.canvas.width;
     let canvasHeight = ctx.canvas.height;
-    for(let i = canvasWidth; i>canvasWidth/2; i--){
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.fillText("Hello World!", i, canvasHeight/2);
+    ctx.font="30px Open Sans";
+    if(document.getElementById('webpage').getAttribute('data-bs-theme')==='light'){
+        ctx.fillStyle="blue";
+    } else{
+        ctx.fillStyle="yellow";
     }
+    let textPosition = canvasWidth;
+    function displayTheStations(){
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillText(mesaj, textPosition, canvasHeight / 2);
+        textPosition -= 2;
+        const textWidth = ctx.measureText(mesaj).width;
+        if (textPosition + textWidth < 0) {
+            textPosition = canvasWidth;
+        }
+        requestAnimationFrame(displayTheStations);
+    }
+    displayTheStations();
 }
