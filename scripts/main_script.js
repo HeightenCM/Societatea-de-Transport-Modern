@@ -1,3 +1,5 @@
+let isEasterEggActive=false;
+
 // Adding themes and button to change
 function changeColorMode(){
     let webpage = document.getElementById('webpage');
@@ -232,6 +234,20 @@ function initializeCanvas(){
 }
 
 function drawMessage(stationList){
+    let ctx = document.getElementById('canvas').getContext('2d');
+    let canvasWidth = ctx.canvas.width;
+    let canvasHeight = ctx.canvas.height;
+    ctx.font="30px Open Sans";
+    if(document.getElementById('webpage').getAttribute('data-bs-theme')==='light'){
+        ctx.fillStyle="blue";
+    } else{
+        ctx.fillStyle="yellow";
+    }
+
+    if(stationList[stationList.length-1]==="Piata Romana"){ //adding one final thing: an easteregg
+        document.addEventListener('keypress', (event)=>easterEgg(event, ctx));
+    }
+
     let mesaj = "";
     if(stationList.length>1){
         mesaj = "Walk up to station " + stationList[0] +". ";
@@ -243,17 +259,10 @@ function drawMessage(stationList){
         mesaj+="It seems the location you want to arrive at is the closest station to you. Happy strolling!";
     }
     
-    let ctx = document.getElementById('canvas').getContext('2d');
-    let canvasWidth = ctx.canvas.width;
-    let canvasHeight = ctx.canvas.height;
-    ctx.font="30px Open Sans";
-    if(document.getElementById('webpage').getAttribute('data-bs-theme')==='light'){
-        ctx.fillStyle="blue";
-    } else{
-        ctx.fillStyle="yellow";
-    }
     let textPosition = canvasWidth;
     function displayTheStations(){
+        if(isEasterEggActive) return;
+
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.fillText(mesaj, textPosition, canvasHeight / 2);
         textPosition -= 2;
@@ -264,4 +273,55 @@ function drawMessage(stationList){
         requestAnimationFrame(displayTheStations);
     }
     displayTheStations();
+}
+
+function easterEgg(event, ctx){
+    if(event.key==='r'){
+        isEasterEggActive = true;
+        const eggAudio = new Audio('assets/music/odainpiataromana.mp3');
+        const subtitlesForEgg=[
+            { time: 2, text: "Ce faci bă?" },
+            { time: 3, text: "Bă, bine. Uite, absolut nimic." },
+            { time: 5, text: "Stau și o frec aici în Romană." },
+            { time: 6, text: "Așa de pomană?" },
+            { time: 7, text: "Bă, de pomană. Stai să vezi.." },
+            { time: 8, text: "fac progrese.. rău de tot." },
+            { time: 10, text: "Și e bine mă?" },
+            { time: 11, text: "Bă, e bine." },
+            { time: 12, text: "Bravo, bă." },
+        ];
+        
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.textAlign="center";
+
+        eggAudio.play();
+        let subtitleIndex = 0;
+
+        const updateSubtitle = () => {
+            if (subtitleIndex < subtitlesForEgg.length) {
+                const currentSubtitle = subtitlesForEgg[subtitleIndex];
+                if (eggAudio.currentTime >= currentSubtitle.time) {
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                    ctx.textAlign = "center";
+                    ctx.fillText(currentSubtitle.text, ctx.canvas.width / 2, ctx.canvas.height / 2);
+                    subtitleIndex++;
+                }
+            }
+
+            if (!eggAudio.paused && !eggAudio.ended) {
+                requestAnimationFrame(updateSubtitle);
+            } else{
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.fillText("Credits: OMS - Odă în Piața Romană", ctx.canvas.width / 2, ctx.canvas.height / 2);
+                // https://www.youtube.com/watch?v=C2wqtnXkBoQ
+                // youtube recommended this to me, so I thought it would be a nice easteregg
+            }
+        };
+
+        updateSubtitle();
+    }
+    else{
+        const carAudio = new Audio("assets/sounds/honkhonk.mp3");
+        carAudio.play();
+    }
 }
